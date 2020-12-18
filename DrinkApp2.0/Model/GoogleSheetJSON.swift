@@ -8,11 +8,11 @@
 import Foundation
 
 
-struct GoogleSheetJSON :Codable{
+ struct GoogleSheetJSON :Codable{
     var feed: sheetFeed
 }
 
-struct sheetFeed:Codable {
+ struct sheetFeed:Codable {
     var entry: [needParseDrinkSheet]
 }
 

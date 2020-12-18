@@ -61,9 +61,9 @@ class OrderList: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 let chooseIce = downloadOrderDrink[i].chooseIce
                 let chooseSize = downloadOrderDrink[i].chooseSize
                 let haveBubble = downloadOrderDrink[i].haveBubble
-                let price = Int(downloadOrderDrink[i].price)
+                let price = downloadOrderDrink[i].price
                 let pictureLink = downloadOrderDrink[i].pictureLink
-                let getOneDrink = CanEditData(name: name, drink: drink, chooseSugar: chooseSugar, chooseIce: chooseIce, chooseSize: chooseSize, haveBubble: haveBubble, price: price!, pictureLink: pictureLink)
+                let getOneDrink = CanEditData(name: name, drink: drink, chooseSugar: chooseSugar, chooseIce: chooseIce, chooseSize: chooseSize, haveBubble: haveBubble, price: price, pictureLink: pictureLink)
             
                 self.listedDrinks.insert(getOneDrink, at: 0)
             }
@@ -86,7 +86,7 @@ class OrderList: UIViewController, UITableViewDelegate, UITableViewDataSource{
         drinkCount.text = "\(listedDrinks.count)  杯"
         for i in 0..<listedDrinks.count{
               let sumMoney = Int(listedDrinks[i].price)
-              priceBox.append(sumMoney)
+            priceBox.append(sumMoney!)
               totalPrice = priceBox.reduce(0, +)
         }
         drinkMoney.text = "$  \(totalPrice)"

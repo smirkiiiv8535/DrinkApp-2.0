@@ -15,7 +15,7 @@ struct CanEditData:Codable{
         var chooseIce:String
         var chooseSize:String
         var haveBubble:String
-        var price :Int
+        var price :String
         var pictureLink:String
 }
 

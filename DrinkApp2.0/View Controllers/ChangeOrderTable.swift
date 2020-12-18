@@ -27,10 +27,10 @@ class ChangeOrderTable: UITableViewController {
             readyFixName.text = editOrder.name
             readyFixDrink.setTitle(editOrder.drink, for: .normal)
             readyFixSugar.selectedSegmentIndex = convertIntHelper(drinkString:editOrder.chooseSugar)
-            readyFixIce.selectedSegmentIndex = convertIntHelper(drinkString:editOrder.chooseSugar)
-            readyFixSize.selectedSegmentIndex = convertIntHelper(drinkString:editOrder.chooseSugar)
+            readyFixIce.selectedSegmentIndex = convertIntHelper(drinkString:editOrder.chooseIce)
+            readyFixSize.selectedSegmentIndex = convertIntHelper(drinkString:editOrder.chooseSize)
             readyFixBubble.isOn = convertBoolHelper(drinkString:editOrder.haveBubble)
-            readyFixPrice.text = String(editOrder.price)
+            readyFixPrice.text = "$ \(editOrder.price)"
             initPicture = editOrder.pictureLink
         }
         downloadMenuAgain()
@@ -88,14 +88,10 @@ class ChangeOrderTable: UITableViewController {
         }.resume()
     }
     
-    func updateSize(){
-        readyFixSize.selectedSegmentIndex = 0
-    }
-    
+     
     
     @IBAction func reWriteDrink(_ sender: UIButton) {
-        updateSize()
-                
+                       
         let mediumOnly = ["熟成檸果","墨玉歐特"]
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
@@ -155,7 +151,7 @@ class ChangeOrderTable: UITableViewController {
         if readyFixSize.selectedSegmentIndex == 1{
             size = .large
             selectedDrink.price+=5
-          }else if readyFixSize.selectedSegmentIndex == 0{
+          }else {
             size = .medium
             selectedDrink.price-=5
         }
@@ -203,8 +199,8 @@ class ChangeOrderTable: UITableViewController {
         let sugar = self.sugar.rawValue
         let ice = self.ice.rawValue
         let size = self.size.rawValue
-        let bubble = self.getBubble.rawValue
-        let price = self.selectedDrink.price
+        let bubble = getBubble.rawValue
+        let price = String(selectedDrink.price)
         let picture = initPicture
         
         let updatedOrder = CanEditData(name :name, drink:drink,chooseSugar: sugar,chooseIce:ice,chooseSize:size,haveBubble:bubble, price:price, pictureLink: picture!)
