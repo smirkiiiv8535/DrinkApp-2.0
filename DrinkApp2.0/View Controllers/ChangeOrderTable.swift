@@ -66,12 +66,12 @@ class ChangeOrderTable: UITableViewController {
     
     var selectedDrink:OverWriteOrder!
     func downloadMenuAgain(){
-        let url = URL(string: UrlRequestTask.shared.menuLink)
+        let url = URL(string: UrlRequestTask.shared.spreadSheetMenuLink)
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let data = data , let allDrinkData = try? JSONDecoder().decode(GoogleSheetJSON.self, from: data){
+            if let data = data , let allDrinkData = try? JSONDecoder().decode(GoogleMenuSheetJSON.self, from: data){
                 let drinkData = allDrinkData.feed.entry
                 
                 for i in 0...drinkData.count-1{
@@ -223,7 +223,7 @@ class ChangeOrderTable: UITableViewController {
     }
     
     func PutSheetDB(order:CanEditData){
-           let url = URL(string: "\(UrlRequestTask.shared.orderLink)/name/\(order.name)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+           let url = URL(string: "\(UrlRequestTask.shared.sheetDBOrderLink)/name/\(order.name)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
             
             var request = URLRequest(url: url!)
             request.httpMethod = "PUT"

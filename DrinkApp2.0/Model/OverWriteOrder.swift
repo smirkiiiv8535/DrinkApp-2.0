@@ -8,8 +8,6 @@
 import Foundation
 
 
-// initOrder(drinkName: drinkName, price: drinkPrice, drinkImageLink: drinkImage)
-
 struct OverWriteOrder{
     var drinkName:String
     var price:Int

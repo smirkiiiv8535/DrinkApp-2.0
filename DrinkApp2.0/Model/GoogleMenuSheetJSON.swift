@@ -1,5 +1,5 @@
 //
-//  GoogleSheetJSON.swift
+//  GoogleMenuSheetJSON.swift
 //  DrinkApp2.0
 //
 //  Created by 林祐辰 on 2020/12/15.
@@ -8,16 +8,16 @@
 import Foundation
 
 
- struct GoogleSheetJSON :Codable{
-    var feed: sheetFeed
+ struct GoogleMenuSheetJSON :Codable{
+    var feed: sheetMenuFeed
 }
 
- struct sheetFeed:Codable {
-    var entry: [needParseDrinkSheet]
+ struct sheetMenuFeed:Codable {
+    var entry: [needParseMenuSheet]
 }
 
 
-struct needParseDrinkSheet:Codable{
+struct needParseMenuSheet:Codable{
             var drinkName:MenuDataText
             var mediumPrice:MenuDataText
             var drinkPicture:MenuDataText

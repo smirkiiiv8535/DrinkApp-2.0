@@ -26,12 +26,12 @@ class OrderTable: UITableViewController {
     }
     
     func downloadMenu(){
-        let urlLink = URL(string: UrlRequestTask.shared.menuLink)
+        let urlLink = URL(string: UrlRequestTask.shared.spreadSheetMenuLink)
         var requestMenu = URLRequest(url: urlLink!)
         requestMenu.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: requestMenu) { (data, response, error) in
-            if let data = data , let menuData = try? JSONDecoder().decode(GoogleSheetJSON.self, from: data){
+            if let data = data , let menuData = try? JSONDecoder().decode(GoogleMenuSheetJSON.self, from: data){
                 
                 let menuList = menuData.feed.entry
                 
@@ -182,7 +182,7 @@ class OrderTable: UITableViewController {
     }
     
     func postDrink(newOrder:Order){
-        let urlLink = URL(string: UrlRequestTask.shared.orderLink)
+        let urlLink = URL(string: UrlRequestTask.shared.sheetDBOrderLink)
         var requestToSheetDB = URLRequest(url: urlLink!)
         requestToSheetDB.httpMethod = "POST"
         requestToSheetDB.setValue("application/json", forHTTPHeaderField: "Content-type")

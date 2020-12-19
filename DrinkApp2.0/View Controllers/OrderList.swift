@@ -13,7 +13,6 @@ class OrderList: UIViewController, UITableViewDelegate, UITableViewDataSource{
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     @IBOutlet weak var drinkCount: UILabel!
     @IBOutlet weak var drinkMoney: UILabel!
-    
    var listedDrinks = [CanEditData]()
    var refreshControl = UIRefreshControl()
     override func viewDidLoad() {
@@ -23,17 +22,13 @@ class OrderList: UIViewController, UITableViewDelegate, UITableViewDataSource{
         loading()
         fetchDrinks()
     }
-    
-
-
-    
+       
     override func viewDidAppear(_ animated: Bool) {
        loading()
        fetchDrinks()
        self.orderTable.reloadData()
        stopLoading()
     }
-    
     
     func loading(){
        loadingIndicator.startAnimating()
@@ -45,24 +40,26 @@ class OrderList: UIViewController, UITableViewDelegate, UITableViewDataSource{
     }
     
     func fetchDrinks(){
-        let orderUrl = URL(string: UrlRequestTask.shared.orderLink)
+        let orderUrl = URL(string: UrlRequestTask.shared.spreadSheetOrderLink)
         var request = URLRequest(url: orderUrl!)
         request.httpMethod = "GET"
      
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             self.listedDrinks.removeAll()
             self.priceBox.removeAll()
-          if let data = data, let downloadOrderDrink = try?JSONDecoder().decode([DownloadSheetDbData].self, from: data){
+          if let data = data, let downloadOrderDrink = try?JSONDecoder().decode(GoogleOrderSheetJSON.self, from: data){
             
-            for i in 0...downloadOrderDrink.count-1{
-                let name = downloadOrderDrink[i].name
-                let drink = downloadOrderDrink[i].drink
-                let chooseSugar = downloadOrderDrink[i].chooseSugar
-                let chooseIce = downloadOrderDrink[i].chooseIce
-                let chooseSize = downloadOrderDrink[i].chooseSize
-                let haveBubble = downloadOrderDrink[i].haveBubble
-                let price = downloadOrderDrink[i].price
-                let pictureLink = downloadOrderDrink[i].pictureLink
+            let orderDrinkData = downloadOrderDrink.feed.entry
+            
+            for i in 0...orderDrinkData.count-1{
+                let name = orderDrinkData[i].name.text
+                let drink = orderDrinkData[i].drink.text
+                let chooseSugar = orderDrinkData[i].chooseSugar.text
+                let chooseIce = orderDrinkData[i].chooseIce.text
+                let chooseSize = orderDrinkData[i].chooseSize.text
+                let haveBubble = orderDrinkData[i].haveBubble.text
+                let price = orderDrinkData[i].price.text
+                let pictureLink = orderDrinkData[i].pictureLink.text
                 let getOneDrink = CanEditData(name: name, drink: drink, chooseSugar: chooseSugar, chooseIce: chooseIce, chooseSize: chooseSize, haveBubble: haveBubble, price: price, pictureLink: pictureLink)
             
                 self.listedDrinks.insert(getOneDrink, at: 0)
@@ -74,6 +71,7 @@ class OrderList: UIViewController, UITableViewDelegate, UITableViewDataSource{
                 self.stopLoading()
             }
         }.resume()
+        
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -139,7 +137,7 @@ class OrderList: UIViewController, UITableViewDelegate, UITableViewDataSource{
 
     func deleteDrinks(name: String,completionHandler: @escaping(String) -> Void) {
 
-        let deleteDrinkUrl = URL(string: "\(UrlRequestTask.shared.orderLink)/name/\(name)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
+        let deleteDrinkUrl = URL(string: "\(UrlRequestTask.shared.sheetDBOrderLink)/name/\(name)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)
         var request = URLRequest(url: deleteDrinkUrl!)
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

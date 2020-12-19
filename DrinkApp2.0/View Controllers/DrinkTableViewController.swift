@@ -8,13 +8,13 @@ import UIKit
 
 class DrinkTableViewController: UITableViewController {
 
-    var allDrinks = [needParseDrinkSheet]()
+    var allDrinks = [needParseMenuSheet]()
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        if let url = URL(string:UrlRequestTask.shared.menuLink){
+        if let url = URL(string:UrlRequestTask.shared.spreadSheetMenuLink){
             URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let data = data , let drinkData = try? JSONDecoder().decode(GoogleSheetJSON.self, from: data){
+                if let data = data , let drinkData = try? JSONDecoder().decode(GoogleMenuSheetJSON.self, from: data){
                     
                     self.allDrinks = drinkData.feed.entry
                        DispatchQueue.main.async {
